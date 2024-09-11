@@ -4,6 +4,7 @@ use dioxus::prelude::*;
 use dioxus_logger::tracing::{info, Level};
 
 mod generate_random_prime;
+mod generate_random_primes;
 
 #[derive(Clone, Routable, Debug, PartialEq)]
 enum Route {
@@ -13,6 +14,8 @@ enum Route {
     Blog { id: i32 },
     #[route("/generate-random-prime")]
     GenerateRandomPrime {},
+    #[route("/generate-random-primes")]
+    GenerateRandomPrimes {},
 }
 
 fn main() {
@@ -47,9 +50,15 @@ fn Home() -> Element {
             },
             "Go to blog"
         }
+        br{}
         Link {
             to: Route::GenerateRandomPrime {},
             "Go to Generate random prime"
+        }
+        br{}
+        Link {
+            to: Route::GenerateRandomPrimes {},
+            "Go to Generate random primes"
         }
         div {
             h1 { "High-Five counter: {count}" }
@@ -65,6 +74,17 @@ fn GenerateRandomPrime() -> Element {
     rsx! {
         div {
             h1 { "Random prime: {random_prime}" }
+        }
+    }
+}
+
+#[component]
+fn GenerateRandomPrimes() -> Element {
+    let random_primes = generate_random_primes::generate_random_primes(1000).collect::<Vec<_>>();
+    let random_primes_format = format!("{:?}", random_primes);
+    rsx! {
+        div {
+            h1 { "Random prime: {random_primes_format}" }
         }
     }
 }
