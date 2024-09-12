@@ -72,6 +72,7 @@ fn Home() -> Element {
 fn GenerateRandomPrime() -> Element {
     let random_prime = generate_random_prime::generate_random_prime(5).unwrap();
     rsx! {
+        Link { to: Route::Home {}, "Go to counter" }
         div {
             h1 { "Random prime: {random_prime}" }
         }
@@ -83,6 +84,7 @@ fn GenerateRandomPrimes() -> Element {
     let random_primes = generate_random_primes::generate_random_primes(1000).collect::<Vec<_>>();
     let random_primes_format = format!("{:?}", random_primes);
     rsx! {
+        Link { to: Route::Home {}, "Go to counter" }
         div {
             h1 { "Random prime: {random_primes_format}" }
         }
