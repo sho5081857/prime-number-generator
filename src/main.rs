@@ -70,9 +70,36 @@ fn Home() -> Element {
 
 #[component]
 fn GenerateRandomPrime() -> Element {
-    let random_prime = generate_random_prime::generate_random_prime(5).unwrap();
+    let mut draft = use_signal(|| "".to_string());
+    let mut random_prime = use_signal(|| 0);
+    let mut error = use_signal(|| "".to_string());
+
+    let onkeydown = move |evt: KeyboardEvent| {
+        if evt.key() == Key::Enter && !draft.read().is_empty() {
+
+            let number = draft.to_string();
+            let draft_number: usize = match number.parse() {
+                Ok(num) => num,
+                Err(e) => {
+                    error.set("変換に失敗しました".to_string());
+                    return;
+                }
+            };
+            random_prime.set(generate_random_prime::generate_random_prime(draft_number).unwrap());
+            draft.set("".to_string());
+        }
+    };
     rsx! {
         Link { to: Route::Home {}, "Go to counter" }
+        br {}
+        input {
+                class: "new-todo",
+                placeholder: "number",
+                value: "{draft}",
+                autofocus: "true",
+                oninput: move |evt| draft.set(evt.value()),
+                onkeydown
+            }
         div {
             h1 { "Random prime: {random_prime}" }
         }
