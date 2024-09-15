@@ -5,6 +5,7 @@ use dioxus_logger::tracing::{info, Level};
 
 mod generate_random_prime;
 mod generate_random_primes;
+mod is_prime;
 
 #[derive(Clone, Routable, Debug, PartialEq)]
 enum Route {
@@ -16,6 +17,8 @@ enum Route {
     GenerateRandomPrime {},
     #[route("/generate-random-primes")]
     GenerateRandomPrimes {},
+    #[route("/is-prime")]
+    IsPrime {},
 }
 
 fn main() {
@@ -59,6 +62,11 @@ fn Home() -> Element {
         Link {
             to: Route::GenerateRandomPrimes {},
             "Go to Generate random primes"
+        }
+        br{}
+        Link {
+            to: Route::IsPrime {},
+            "Go to Is Prime"
         }
         div {
             h1 { "High-Five counter: {count}" }
@@ -114,6 +122,18 @@ fn GenerateRandomPrimes() -> Element {
         Link { to: Route::Home {}, "Go to counter" }
         div {
             h1 { "Random prime: {random_primes_format}" }
+        }
+    }
+}
+
+
+#[component]
+fn IsPrime() -> Element {
+    let is_prime = is_prime::is_prime(5);
+    rsx! {
+        Link { to: Route::Home {}, "Go to counter" }
+        div {
+            h1 { "Is prime: {is_prime}" }
         }
     }
 }
