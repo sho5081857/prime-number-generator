@@ -11,9 +11,9 @@ pub fn is_prime(num: u64) -> bool {
         return false;
     }
 
-    let sqrt_num = (num as f64).sqrt().floor() as u64;
+    let sqrt_num = (num as f64).sqrt().floor() as usize;
     for i in (5..=sqrt_num).step_by(6) {
-        if num % i == 0 || num % (i + 2) == 0 {
+        if num % (i as u64) == 0 || num % ((i + 2) as u64) == 0 {
             return false;
         }
     }
