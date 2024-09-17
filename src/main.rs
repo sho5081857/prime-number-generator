@@ -5,7 +5,6 @@ use dioxus_logger::tracing::{info, Level};
 
 mod generate_random_prime;
 mod generate_random_primes;
-mod is_prime;
 
 #[derive(Clone, Routable, Debug, PartialEq)]
 enum Route {
@@ -147,7 +146,7 @@ fn IsPrime() -> Element {
                     return;
                 }
             };
-            is_prime.set(is_prime::is_prime(draft_number));
+            is_prime.set(generate_random_prime::is_prime(draft_number));
         }
     };
     rsx! {
